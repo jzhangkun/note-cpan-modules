@@ -27,8 +27,30 @@ Three kinds of values are supported:
 ````
 
 ### Options with multiple values
-By adding a "@"
+Specify destination as array reference or adding a "@"
 ````perl
-     my @libfiles;
-    GetOptions ("library=s@" => \@libfiles);
+    my @libfiles = ();
+    GetOptions ("library=s" => \@libfiles);
+    # or 
+    my $libfiles = [];
+    GetOptions ("library=s@" => \$libfiles);
+````
+Usage in command line
+````perl
+--library lib/stdlib --library lib/extlib
+````
+
+### Options with hash values
+Specify the desination as hash reference or adding a '%'
+````perl
+GetOptions ("define=s" => \%defines);
+
+````perl
+    GetOptions ("define=s" => \%defines);
+    or
+    GetOptions ("define=s%" => \$defines);
+````
+Usage in command line
+````perl
+--define os=linux --define vendor=redhat
 ````

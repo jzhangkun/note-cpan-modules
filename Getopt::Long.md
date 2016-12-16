@@ -1,5 +1,5 @@
 # Getopt::Long - Extended processing of command line options
-
+## Common
 ### negatable options and incremental options.
 - negatable !
 ```perl
@@ -61,6 +61,20 @@ Usually programs take command line options as well as other arguments, for examp
 In this example, --all will not be treated as an option, but passed to the program unharmed, in @ARGV.
 
 ### User-defined subroutines to handle options
+simple: Pushing multiple values in a hash option
+Sometimes you want to combine the best of hashes and arrays. For example, the command line:
+````perl
+    --list add=first --list add=second --list add=third
+````
+achieved by 
+````perl
+    GetOptions('list=s%' =>
+               sub { push(@{$list{$_[1]}}, $_[2]) });
+````
+result to be:
+````perl
+    $list->{add} = [qw(first second third)];
+````
 
 ## Advanced
 ### Object oriented interface

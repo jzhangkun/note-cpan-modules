@@ -55,5 +55,46 @@ Usage in command line
 ### Mixing command line option with other arguments
 Usually programs take command line options as well as other arguments, for example, file names. It is good practice to always specify the options first, and the other arguments last. Getopt::Long will, however, allow the options and arguments to be mixed and 'filter out' all the options before passing the rest of the arguments to the program. 
 <b>To stop Getopt::Long from processing further arguments, insert a double dash -- on the command line:</b>
+````perl
+    --size 24 -- --all
+````
+In this example, --all will not be treated as an option, but passed to the program unharmed, in @ARGV.
 
+### User-defined subroutines to handle options
+
+## Advanced
+### Object oriented interface
+Getopt::Long can be used in an object oriented way as well:
+````perl
+    use Getopt::Long;
+    $p = Getopt::Long::Parser->new;
+    $p->configure(...configuration options...);
+    if ($p->getoptions(...options descriptions...)) ...
+    if ($p->getoptionsfromarray( \@array, ...options descriptions...)) ...
+````
+
+### Documentation and help texts
+Getopt::Long encourages the use of Pod::Usage to produce help messages. 
+See Pod::Usage for details.
+
+### Parsing options from an arbitrary array
+By default, GetOptions parses the options that are present in the global array @ARGV. A special entry GetOptionsFromArray can be used to parse options from an arbitrary array.
+````perl
+    $ret = GetOptions(\%opts, ... );
+    $ret = GetOptionsFromArray(\@ARGV, \%opts, ... );
+````
+### Parsing options from an arbitrary string
+A special entry GetOptionsFromString can be used to parse options from an arbitrary string.
+As with GetOptionsFromArray, a first argument hash reference now becomes the second argument.
+
+### Storing options values in a hash
+To obtain this, a reference to a hash must be passed as the first argument to GetOptions().
+
+### Argument callback
+A special option 'name' <> can be used to designate a subroutine to handle non-option arguments. 
+````perl
+    my $width = 80;
+    sub process { ... }
+    GetOptions ('width=i' => \$width, '<>' => \&process);
+````
 
